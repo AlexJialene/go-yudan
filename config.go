@@ -1,5 +1,9 @@
 package main
 
+import (
+	"./encoder"
+)
+
 var (
 	hostName      = "openbarrage.douyutv.com"
 	port          = "8601"
@@ -21,4 +25,11 @@ func GetMaxBufferLen() int {
 
 func GetMessageClient() int {
 	return messageClient
+}
+
+func JoinRoomData(roomId string) [] byte {
+	e := encoder.GetEncoder()
+	encoder.AddItem(e, "type", "loginreq")
+	encoder.AddItem(e, "roomid", roomId)
+	return encoder.ByteResult(e, GetMessageClient())
 }

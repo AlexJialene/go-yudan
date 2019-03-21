@@ -3,8 +3,9 @@ package main
 import (
 	"net"
 	"fmt"
-	"./encoder"
 )
+
+var conn net.Conn
 
 func connect() {
 	host, _ := net.LookupHost(GetHostName())
@@ -36,9 +37,6 @@ func process(conn net.Conn) {
 }
 
 func main() {
-	e :=encoder.GetEncoder()
-	encoder.AddItem(e , "type" ,"login")
-	encoder.AddItem(e , "roomid" ,"518512")
-	fmt.Println(encoder.Result(e))
+	fmt.Println(JoinRoomData("71415"))
 
 }
