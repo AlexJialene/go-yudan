@@ -1,42 +1,68 @@
 package main
 
 import (
-	"net"
 	"fmt"
+	"net"
 )
 
-var conn net.Conn
+var tcpConn *net.TCPConn
+var e Event
+var k KeepAlive
 
 func connect() {
 	host, _ := net.LookupHost(GetHostName())
-	listen, err := net.Listen("tcp", host[0]+GetPort())
-	if nil != err {
+	tcpAddr, err := net.ResolveTCPAddr("tcp4", host[0]+":"+GetPort())
+	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	for ; ; {
-		conn, err := listen.Accept()
-		if nil != err {
-			fmt.Println(err)
-			continue
-		}
-		process(conn)
+
+	conn, err := net.DialTCP("tcp", nil, tcpAddr)
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
+
+	tcpConn = conn
+	e = EventImpl{tcpConn: conn}
+	k = KeepAliveImpl{event: &e}
 }
-func process(conn net.Conn) {
-	defer conn.Close()
-	for ; ; {
-		buf := make([]byte, GetMaxBufferLen())
-		n, err := conn.Read(buf)
-		if err != nil {
-			fmt.Println("read err:", err)
-			return
-		}
-		fmt.Printf(string(buf[0:n]))
+
+func join(conn *net.TCPConn, roomId string) {
+	_, err := conn.Write(JoinRoomData(roomId))
+	if err != nil {
+		fmt.Println(err)
+		return
 	}
+	recvByte := make([]byte, GetMaxBufferLen())
+	conn.Read(recvByte)
+
+	b := ParseLoginResult(recvByte)
+	if b {
+		fmt.Println("join room success")
+	}
+
 }
 
 func main() {
-	fmt.Println(JoinRoomData("71415"))
+	start()
 
+}
+
+func start() {
+	connect()
+	join(tcpConn, roomId)
+	joinGroup(roomId, groupId)
+
+	c := make(chan int)
+
+	go e.receive()
+	go k.keepAlive()
+	<-c
+
+}
+
+func joinGroup(roomId, groupId string) {
+	e.send(joinGroupData(roomId, groupId))
+	fmt.Println("joinGroup")
 }

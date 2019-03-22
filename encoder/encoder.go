@@ -43,7 +43,7 @@ func ByteResult(encoder *Encoder , messageClient int) []byte {
 	data[len(strBytes)] = 0
 	//组装
 	var b byte = 0
-	strLen := len(encoder.Str)
+	strLen := len(data)+8
 	//dataLen := bLen + 12
 
 	buff := new(bytes.Buffer)
