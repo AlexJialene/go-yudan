@@ -2,4 +2,5 @@
 ---------------------
 Get the bullet screen of the site(douyu.com) <br>
 
-[👉 java version](https://github.com/AlexJialene/yudan)
+[👉 Java version](https://github.com/AlexJialene/yudan)
+[👉 Document description](https://github.com/AlexJialene/yudan/blob/master/README.md)
