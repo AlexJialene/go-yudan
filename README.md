@@ -1,5 +1,5 @@
 # go-yudan
 ---------------------
-斗鱼弹幕抓取 <br>
+Get the bullet screen of the site(douyu.com) <br>
 
 [👉 java version](https://github.com/AlexJialene/yudan)
