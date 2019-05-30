@@ -1,7 +1,7 @@
-package main
+package bullet
 
 import (
-	"./encoder"
+	"../encoder"
 	"bytes"
 	"encoding/binary"
 	"strings"
@@ -12,11 +12,6 @@ var (
 	port          = "8601"
 	maxBufferLen  = 4096
 	messageClient = 689
-)
-
-const (
-	roomId  = "74751"
-	groupId = "-9999"
 )
 
 func GetHostName() string {

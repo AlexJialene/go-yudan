@@ -1,4 +1,4 @@
-package main
+package bullet
 
 import (
 	"fmt"
@@ -44,19 +44,14 @@ func join(conn *net.TCPConn, roomId string) {
 
 }
 
-func main() {
-	start()
-
-}
-
-func start() {
+func Start(roomId, groupId string, f func(msg map[string]string)) {
 	connect()
 	join(tcpConn, roomId)
 	joinGroup(roomId, groupId)
 
 	c := make(chan int)
 
-	go e.receive()
+	go e.receive(f)
 	go k.keepAlive()
 	<-c
 

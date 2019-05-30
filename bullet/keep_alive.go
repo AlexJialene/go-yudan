@@ -1,4 +1,4 @@
-package main
+package bullet
 
 import (
 	"time"
@@ -14,6 +14,7 @@ type KeepAliveImpl struct {
 
 func (k KeepAliveImpl) keepAlive()  {
 	for{
+		//TODO
 
 		//心跳包
 		time.Sleep(time.Second*40)
