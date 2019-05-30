@@ -9,7 +9,7 @@ var tcpConn *net.TCPConn
 var e Event
 var k KeepAlive
 
-func connect() {
+func connect(roomId string) {
 	host, _ := net.LookupHost(GetHostName())
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", host[0]+":"+GetPort())
 	if err != nil {
@@ -24,8 +24,8 @@ func connect() {
 	}
 
 	tcpConn = conn
-	e = EventImpl{tcpConn: conn}
-	k = KeepAliveImpl{event: &e}
+	e = EventImpl{tcpConn: conn, roomId: roomId}
+	k = KeepAliveImpl{event: e}
 }
 
 func join(conn *net.TCPConn, roomId string) {
@@ -45,7 +45,7 @@ func join(conn *net.TCPConn, roomId string) {
 }
 
 func Start(roomId, groupId string, f func(msg map[string]string)) {
-	connect()
+	connect(roomId)
 	join(tcpConn, roomId)
 	joinGroup(roomId, groupId)
 

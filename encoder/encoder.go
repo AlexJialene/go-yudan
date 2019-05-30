@@ -33,7 +33,7 @@ func Result(encoder *Encoder) string {
 	return encoder.Str
 }
 
-func ByteResult(encoder *Encoder , messageClient int) []byte {
+func ByteResult(encoder *Encoder, messageClient int) []byte {
 	strBytes := []byte(encoder.Str)
 
 	data := make([]byte, len(strBytes)+1)
@@ -43,13 +43,13 @@ func ByteResult(encoder *Encoder , messageClient int) []byte {
 	data[len(strBytes)] = 0
 	//组装
 	var b byte = 0
-	strLen := len(data)+8
+	strLen := len(data) + 8
 	//dataLen := bLen + 12
 
 	buff := new(bytes.Buffer)
-	binary.Write(buff, binary.LittleEndian, int32Byte(strLen))
-	binary.Write(buff, binary.LittleEndian, int32Byte(strLen))
-	binary.Write(buff, binary.LittleEndian, int16Byte(messageClient))
+	binary.Write(buff, binary.LittleEndian, Int32Byte(strLen))
+	binary.Write(buff, binary.LittleEndian, Int32Byte(strLen))
+	binary.Write(buff, binary.LittleEndian, Int16Byte(messageClient))
 	binary.Write(buff, binary.LittleEndian, b)
 	binary.Write(buff, binary.LittleEndian, b)
 	binary.Write(buff, binary.LittleEndian, data)
@@ -57,16 +57,30 @@ func ByteResult(encoder *Encoder , messageClient int) []byte {
 	return buff.Bytes()
 }
 
-func int32Byte(i int) []byte {
+func Int32Byte(i int) []byte {
 	x := int32(i)
 	bytesBuffer := bytes.NewBuffer([]byte{})
 	binary.Write(bytesBuffer, binary.LittleEndian, x)
 	return bytesBuffer.Bytes()
 }
 
-func int16Byte(i int) []byte {
+func Int16Byte(i int) []byte {
 	x := int16(i)
 	bytesBuffer := bytes.NewBuffer([]byte{})
 	binary.Write(bytesBuffer, binary.LittleEndian, x)
 	return bytesBuffer.Bytes()
+}
+
+func ByteToInt(b []byte) int {
+	var x int32
+	byteBuffer := bytes.NewBuffer(b)
+	binary.Read(byteBuffer, binary.LittleEndian, &x)
+	return int(x)
+}
+
+func ByteToInt16(b []byte) int16 {
+	var x int16
+	byteBuffer := bytes.NewBuffer(b)
+	binary.Read(byteBuffer, binary.LittleEndian, &x)
+	return x
 }
