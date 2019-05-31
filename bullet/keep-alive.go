@@ -3,7 +3,7 @@ package bullet
 import (
 	"time"
 	"fmt"
-	"../encoder"
+	"go-yudan/encoder"
 )
 
 type KeepAlive interface {

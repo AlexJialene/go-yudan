@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 	"log"
-	"../encoder"
+	"go-yudan/encoder"
 )
 
 type Event interface {
