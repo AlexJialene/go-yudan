@@ -4,7 +4,7 @@ import (
 	"net"
 	"strings"
 	"log"
-	"go-yudan/encoder"
+	"github.com/alexjialene/go-yudan/encoder"
 )
 
 type Event interface {
