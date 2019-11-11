@@ -1,7 +1,7 @@
 package bullet
 
 import (
-	"../encoder"
+	"github.com/alexjialene/go-yudan/encoder"
 	"bytes"
 	"encoding/binary"
 	"strings"

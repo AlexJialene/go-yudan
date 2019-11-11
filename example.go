@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./bullet"
+	"github.com/alexjialene/go-yudan/bullet"
 	"fmt"
 )
 
