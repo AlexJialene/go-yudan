@@ -2,10 +2,9 @@ package bullet
 
 import (
 	"net"
-	"fmt"
 	"strings"
 	"log"
-	"../encoder"
+	"go-yudan/encoder"
 )
 
 type Event interface {
@@ -36,7 +35,6 @@ func (e EventImpl) receive(f func(msg map[string]string)) {
 
 		}
 		data := string(b[:n])
-		fmt.Println(data)
 		f(message(data))
 		if err != nil {
 			log.Println("[ERROR]:", err)
@@ -47,7 +45,6 @@ func (e EventImpl) receive(f func(msg map[string]string)) {
 func (e EventImpl) send(reqData []byte) {
 	_, err := tcpConn.Write(reqData)
 	if err != nil {
-		fmt.Println(err)
 		return
 	}
 }
